@@ -1,0 +1,52 @@
+@model LibraryApp.Models.Book
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h2>@Model.Title</h2>
+
+<dl class="row">
+    <dt class="col-sm-3">ISBN</dt>
+    <dd class="col-sm-9">@Model.Isbn</dd>
+
+    <dt class="col-sm-3">Rok wydania</dt>
+    <dd class="col-sm-9">@Model.PublishedYear</dd>
+
+    <dt class="col-sm-3">Autor</dt>
+    <dd class="col-sm-9">@Model.Author.FullName</dd>
+</dl>
+
+<div class="mt-4">
+    <h4>Historia wypożyczeń</h4>
+
+    @if (!Model.Borrowings.Any())
+    {
+        <p class="text-muted">Brak wypożyczeń.</p>
+    }
+    else
+    {
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th>Wypożyczający</th>
+                    <th>Data wypożyczenia</th>
+                    <th>Data zwrotu</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var b in Model.Borrowings)
+                {
+                    <tr>
+                        <td>@b.BorrowerName</td>
+                        <td>@b.BorrowedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@(b.ReturnedAt.HasValue ? b.ReturnedAt.Value.ToString("dd.MM.yyyy HH:mm") : "nie zwrócono")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <a asp-controller="Borrowings" asp-action="Create" asp-route-bookId="@Model.Id" class="btn btn-success">Dodaj wypożyczenie</a>
+    <a asp-action="Index" class="btn btn-secondary">Wróć do listy</a>
+</div>

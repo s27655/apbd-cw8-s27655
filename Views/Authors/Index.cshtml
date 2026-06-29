@@ -1,0 +1,27 @@
+@model IEnumerable<LibraryApp.Models.Author>
+
+@{
+    ViewData["Title"] = "Autorzy";
+}
+
+<h2>Autorzy</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Liczba książek</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var author in Model)
+        {
+            <tr>
+                <td>@author.FirstName</td>
+                <td>@author.LastName</td>
+                <td>@author.Books.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
